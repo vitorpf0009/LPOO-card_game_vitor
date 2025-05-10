@@ -39,12 +39,60 @@ public class Carta implements Serializable {
    @Column(name = "car_defesa", nullable = false)
    private int defesa;
    
-      @Column(nullable = true)
+      @Column(name = "car_categoria", nullable = true)
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
    
     @Column(name = "car_raridade", nullable = true)
     private int raridade;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
+
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
+    }
+
+    public int getDefesa() {
+        return defesa;
+    }
+
+    public void setDefesa(int defesa) {
+        this.defesa = defesa;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public int getRaridade() {
+        return raridade;
+    }
+
+    public void setRaridade(int raridade) {
+        this.raridade = raridade;
+    }
 
     
     
