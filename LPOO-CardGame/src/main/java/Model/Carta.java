@@ -6,6 +6,7 @@ package Model;
 
 import com.sun.istack.Nullable;
 import java.io.Serializable;
+import javax.annotation.processing.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,8 +27,8 @@ import javax.persistence.Table;
 public class Carta implements Serializable {
 
       @Id
-    @SequenceGenerator(name = "car_id", sequenceName = "car_id", allocationSize = 1)
-    @GeneratedValue(generator = "car_id", strategy = GenerationType.SEQUENCE)  
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "car_id")
     private int id;
       
    @Column(name = "car_nome" , nullable = false)
@@ -94,8 +95,11 @@ public class Carta implements Serializable {
         this.raridade = raridade;
     }
 
- @Override
- public String toString(){
-     retutn nome +"(categotia;
- }
+
+    @Override
+    public String toString(){
+        return nome + "("+categoria+"): A: "+ataque+" - D: "+defesa;
+    }
+    
+    
     }

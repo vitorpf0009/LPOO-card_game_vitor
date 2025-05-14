@@ -7,6 +7,7 @@ package view;
 import Control.PersistenciaJPA;
 import Model.Carta;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,17 +23,16 @@ public class CartaJF extends javax.swing.JFrame {
         loadCards();
     }
     
-    public void loadCards () {
-        
+   public void loadCards() {
         DefaultListModel model = new DefaultListModel();
         model.removeAllElements();
-        
-        for (Carta c : jpa.getCartas()){
+
+        for (Carta c : jpa.getCartas()) {
             model.addElement(c);
         }
-        ListCarta.setModel(model);
-    }
 
+        LstCartas.setModel(model);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,7 +44,7 @@ public class CartaJF extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ListCarta = new javax.swing.JList<>();
+        LstCartas = new javax.swing.JList<>();
         btnCadastrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         Remover = new javax.swing.JButton();
@@ -53,7 +53,7 @@ public class CartaJF extends javax.swing.JFrame {
 
         jLabel1.setText("Cadastra carta");
 
-        jScrollPane1.setViewportView(ListCarta);
+        jScrollPane1.setViewportView(LstCartas);
 
         btnCadastrar.setText("Cadastrar");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -112,18 +112,19 @@ public class CartaJF extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-            CadastroCarta telaCadastro = new CadastroCarta(this, true);
-            telaCadastro.setVisible(true);
-            Carta novacarta = telaCadastro.getCarta();
-           
-            if(!jpa.conexaoAberta()){
+        CadastroCartaJD telaCadastro = new CadastroCartaJD(this, true);
+        telaCadastro.setVisible(true);
+        Carta novaCarta = telaCadastro.getCarta();
+
+        if (!jpa.conexaoAberta()) {
             jpa = new PersistenciaJPA();
-            }
-            try {
-                jpa.persist(novaCarta);
-        } catch (Exception ex) {
-            System.err.println("Erro ao perc");
         }
+        try {
+            jpa.persist(novaCarta);
+        } catch (Exception ex) {
+            System.err.println("ERRO AO PERSISTIR NOVA CARTA: " + ex);
+        }
+        loadCards();
             
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -132,8 +133,24 @@ public class CartaJF extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void RemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverActionPerformed
-        Carta cartaSel = lstCartas.getSelectedValue();
-        if(cartaSel)
+     Carta cartaSel = LstCartas.getSelectedValue();
+        if (cartaSel == null) {
+            JOptionPane.showMessageDialog(null, "Selecione uma carta para remover");
+        } else {
+            int opDel = JOptionPane.showConfirmDialog(rootPane,
+                    "Tem certeza que deseja remover a carta: " + cartaSel + "?");
+            if (opDel == JOptionPane.YES_OPTION) {
+                if (!jpa.conexaoAberta()) {
+                    jpa = new PersistenciaJPA();
+                }
+                try {
+                    jpa.remover(cartaSel);
+                } catch (Exception ex) {
+                    System.err.println("ERRO AO REMOVER CARTA: " + ex);
+                }
+                loadCards();
+            }
+        }
     }//GEN-LAST:event_RemoverActionPerformed
 
     /**
@@ -172,7 +189,7 @@ public class CartaJF extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> ListCarta;
+    private javax.swing.JList<Carta> LstCartas;
     private javax.swing.JButton Remover;
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnEditar;
