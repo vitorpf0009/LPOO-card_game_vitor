@@ -94,6 +94,8 @@ public class Carta implements Serializable {
         this.raridade = raridade;
     }
 
-    
-    
-}
+ @Override
+ public String toString(){
+     retutn nome +"(categotia;
+ }
+    }
