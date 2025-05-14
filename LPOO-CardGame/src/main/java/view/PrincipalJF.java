@@ -76,7 +76,7 @@ public class PrincipalJF extends javax.swing.JFrame {
 
     private void MenCartaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenCartaActionPerformed
         
-        CartaJF telaCartas = new CartaJF();
+       CartaJF telaCartas = new CartaJF();
         telaCartas.setVisible(true);
         
     }//GEN-LAST:event_MenCartaActionPerformed
