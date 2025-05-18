@@ -69,6 +69,11 @@ public class CartaJF extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnRemover.setText("Remover");
         btnRemover.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +156,34 @@ public class CartaJF extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+            
+            Carta cartaSelecionada = lstCartas.getSelectedValue();
+            
+            if(cartaSelecionada!=null){
+            EdicaoCartaJD telaEdicao = new EdicaoCartaJD(this, true);
+            telaEdicao.setCarta(cartaSelecionada);
+            telaEdicao.setVisible(true);
+ 
+             if (!jpa.conexaoAberta()) {
+            jpa = new PersistenciaJPA();
+               }
+                try {
+            jpa.persist(cartaSelecionada);
+               } catch (Exception ex) {
+            System.err.println("ERRO AO PERSISTIR  CARTA: " + ex);
+        }
+            
+            loadCards();
+            
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Selecione uma carta para ser excluida");
+                
+            }
+        
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
