@@ -13,6 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,7 +27,7 @@ import javax.persistence.Table;
 @Entity
 public class Jogador implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "jog_id")
     private int id;
     @Column(name = "jog_nickname", nullable = false)
@@ -32,11 +35,26 @@ public class Jogador implements Serializable{
     @Column(name = "jog_level")
     private int level;
     @ElementCollection
-    private List<Carta> baralho;
+    
+    
+    
+    @ManyToMany
+    @JoinTable(
+        name = "tbl_baralho_jogador",
+        joinColumns =  @JoinColumn(name = "jogador"), 
+        inverseJoinColumns = @JoinColumn(name = "carta")
+        
+        )
+    
+  private List<Carta> baralho;
 
-    public Jogador() {
-        baralho = new ArrayList<>();
-    }
+   public Jogador() {
+       baralho = new ArrayList<>();
+   }
+ 
+    
+    
+    
 
     public int getId() {
         return id;
@@ -64,6 +82,10 @@ public class Jogador implements Serializable{
 
     public List<Carta> getBaralho() {
         return baralho;
+    }
+
+    public void getLeve() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

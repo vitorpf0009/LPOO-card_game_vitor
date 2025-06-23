@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.*;
 import javax.persistence.*;
 import model.Carta;
+import model.Jogador;
 public class PersistenciaJPA implements InterfaceBD {
 
     private EntityManager entity;
@@ -80,6 +81,17 @@ public class PersistenciaJPA implements InterfaceBD {
         return entity;
     }
 
+       public List<Jogador> getJogadores() {
+        entity = getEntityManager();
+        try {
+            TypedQuery<Jogador> query = entity.createQuery("SELECT c FROM Jogador c", Jogador.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            Logger.getLogger(PersistenciaJPA.class.getName()).log(Level.SEVERE, "Erro ao buscar cartas", e);
+            return null;
+        }
+    }
+    
     // Método para listar todas as Cartas
     public List<Carta> getCartas() {
         entity = getEntityManager();

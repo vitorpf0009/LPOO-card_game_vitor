@@ -5,6 +5,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -35,6 +36,9 @@ public class Carta implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "car_categoria", nullable = true)
     private Categoria categoria;
+    
+    @ManyToMany(mappedBy = "baralho")
+    List<Jogador> listaJogadores;
 
     public Carta() {
     }
